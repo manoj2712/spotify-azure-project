@@ -1,0 +1,15 @@
+{
+	"name": "df-azureproject-manoj",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "1f1a87bf-6082-4857-b1c2-8e53b8444d8d",
+		"tenantId": "3269d1f5-82ba-4419-a0fb-eb0f2d03517b"
+	}
+}
