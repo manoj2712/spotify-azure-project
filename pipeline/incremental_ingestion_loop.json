@@ -9,7 +9,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "[\n  {\n    \"schema\" : \"dbo\",\n    \"table\" : \"DimUser\",\n    \"cdc_col\" : \"updated_at\",\n    \"from_date\" : \"\"\n  },\n  {\n    \"schema\" : \"dbo\",\n    \"table\" : \"DimTrack\",\n    \"cdc_col\" : \"updated_at\",\n    \"from_date\" : \"\"\n  },\n  {\n    \"schema\" : \"dbo\",\n    \"table\" : \"DimDate\",\n    \"cdc_col\" : \"date\",\n    \"from_date\" : \"\"\n  },\n  {\n    \"schema\" : \"dbo\",\n    \"table\" : \"DimArtist\",\n    \"cdc_col\" : \"updated_at\",\n    \"from_date\" : \"\"\n  },\n  {\n    \"schema\" : \"dbo\",\n    \"table\" : \"FactStream\",\n    \"cdc_col\" : \"stream_timestamp\",\n    \"from_date\" : \"\"\n  }\n]",
+						"value": "@pipeline().parameters.loop_input",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -17,8 +17,6 @@
 						{
 							"name": "AzureSqlToLake",
 							"type": "Copy",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "last_cdc",
@@ -45,7 +43,7 @@
 								"source": {
 									"type": "AzureSqlSource",
 									"sqlReaderQuery": {
-										"value": "SELECT * FROM @{item().schema_name}.@{item().table} WHERE @{item().cdc_col} > '@{if(empty(item().from_date), activity('last_cdc').output.value[0].cdc, item().from_date)}'",
+										"value": "SELECT * FROM @{item().schema}.@{item().table} WHERE @{item().cdc_col} > '@{if(empty(item().from_date), activity('last_cdc').output.value[0].cdc, item().from_date)}'",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
@@ -153,8 +151,6 @@
 						{
 							"name": "IfIncrementalData",
 							"type": "IfCondition",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "AzureSqlToLake",
@@ -325,8 +321,40 @@
 			}
 		],
 		"parameters": {
-			"current": {
-				"type": "string"
+			"loop_input": {
+				"type": "array",
+				"defaultValue": [
+					{
+						"schema": "dbo",
+						"table": "DimUser",
+						"cdc_col": "updated_at",
+						"from_date": ""
+					},
+					{
+						"schema": "dbo",
+						"table": "DimTrack",
+						"cdc_col": "updated_at",
+						"from_date": ""
+					},
+					{
+						"schema": "dbo",
+						"table": "DimDate",
+						"cdc_col": "date",
+						"from_date": ""
+					},
+					{
+						"schema": "dbo",
+						"table": "DimArtist",
+						"cdc_col": "updated_at",
+						"from_date": ""
+					},
+					{
+						"schema": "dbo",
+						"table": "FactStream",
+						"cdc_col": "stream_timestamp",
+						"from_date": ""
+					}
+				]
 			}
 		},
 		"variables": {
