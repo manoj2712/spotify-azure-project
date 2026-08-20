@@ -355,7 +355,7 @@
 				"defaultValue": [
 					{
 						"schema": "dbo",
-						"table": "DimUser",
+						"table": "DimUse",
 						"cdc_col": "updated_at",
 						"from_date": ""
 					},
