@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "df-azureproject-manoj"
+		},
+		"AzureDataLakeStorage_accountKey": {
+			"value": ""
+		},
+		"azure_sql_password": {
+			"value": ""
+		},
+		"AzureDataLakeStorage_properties_typeProperties_url": {
+			"value": "https://manojazureproject.dfs.core.windows.net/"
+		},
+		"azure_sql_properties_typeProperties_server": {
+			"value": "serverazureprojectmanoj.database.windows.net"
+		},
+		"azure_sql_properties_typeProperties_database": {
+			"value": "azrureprojectdbmanoj"
+		},
+		"azure_sql_properties_typeProperties_userName": {
+			"value": "azureserver"
+		}
+	}
+}
